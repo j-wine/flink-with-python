@@ -1,4 +1,3 @@
-version: '3.7'
 services:
 
   jobmanager:
@@ -35,27 +34,49 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     networks:
       - flink-net
-  
-  app:
-    # /flink/bin/flink run -py /taskscripts/app.py --jobmanager jobmanager:8081 --target local
-    image: flink-app
-    build: 
+
+  traffic_lights_job:
+    image: traffic-lights-flink-job
+    build:
       context: .
-    environment: 
+      dockerfile: traffic_lights/Dockerfile
+    environment:
       KAFKA_BROKER: kafka:9092
-      KAFKA_TOPIC: flink-topic
+      KAFKA_TOPIC: traffic_lights
       SINK_DIR: /sink
     depends_on:
       - kafka
-    volumes:
-      - ./sink:/sink
-    entrypoint:
-      - tail
-    command: 
-      - -f
-      - /dev/null
+      - jobmanager
+#    entrypoint:
+#      - tail
+#    command:
+#      - -f
+#      - /dev/null
     networks:
       - flink-net
+
+
+
+#  app:
+#    # /flink/bin/flink run -py /taskscripts/app.py --jobmanager jobmanager:8081 --target local
+#    image: flink-app
+#    build:
+#      context: .
+#    environment:
+#      KAFKA_BROKER: kafka:9092
+#      KAFKA_TOPIC: flink-topic
+#      SINK_DIR: /sink
+#    depends_on:
+#      - kafka
+#    volumes:
+#      - ./sink:/sink
+#    entrypoint:
+#      - tail
+#    command:
+#      - -f
+#      - /dev/null
+#    networks:
+#      - flink-net
 
   dummyproducer:
     # kafka-console-producer.sh --topic flink-topic --bootstrap-server kafka:9092 < /test.txt

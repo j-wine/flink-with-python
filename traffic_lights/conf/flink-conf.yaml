@@ -1,0 +1,8 @@
+blob.server.port: 6124
+taskmanager.memory.process.size: 2048m
+pipeline.jars: file:///taskscripts/jars/flink-connector-kafka-3.0.1-1.18.jar,file:///taskscripts/jars/kafka-clients-3.0.1.jar
+parallelism.default: 1
+taskmanager.numberOfTaskSlots: 2
+jobmanager.rpc.address: jobmanager
+jobmanager.memory.process.size: 1024m
+query.server.port: 6125

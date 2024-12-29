@@ -1,7 +1,7 @@
 FROM python:3.9.18-bullseye
 
-ARG FLINK_VER=1.18.1 \
-    POETRY_VER=1.6.1
+ARG FLINK_VER=1.18.1
+ARG POETRY_VER=1.6.1
 
 RUN apt update -y \
     && apt-get install -y --no-install-recommends \
@@ -22,5 +22,6 @@ RUN poetry export -f requirements.txt -o requirements.txt --without-hashes \
     && pip install -r requirements.txt \
     && rm -f requirements.txt
 
-ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/3.0.1-1.18/flink-sql-connector-kafka-3.0.1-1.18.jar /jars
-COPY flink_with_python/* ./
+ADD https://repo.maven.apache.org/maven2/org/apache/flink/flink-connector-kafka/3.0.1-1.18/flink-connector-kafka-3.0.1-1.18.jar /jars
+ADD https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.0.1/kafka-clients-3.0.1.jar /jars
+COPY traffic_lights/* ./
