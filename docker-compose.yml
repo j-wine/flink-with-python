@@ -1,18 +1,18 @@
 services:
 
   jobmanager:
-    image: flink:latest
+    image: flink:1.18.1
     networks:
       - flink-net
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
       FLINK_PROPERTIES: "jobmanager.rpc.address: jobmanager"
     command:
       - jobmanager
 
   taskmanager:
-    image: flink:latest
+    image: flink:1.18.1
     networks:
       - flink-net
     environment:
@@ -30,7 +30,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_CREATE_TOPICS: "flink-topic:1:1"
+      KAFKA_CREATE_TOPICS: "flink-topic:1:1,traffic_light_signals:1:1,processed_traffic_light_signals:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     networks:
       - flink-net
@@ -78,35 +78,35 @@ services:
 #    networks:
 #      - flink-net
 
-  dummyproducer:
-    # kafka-console-producer.sh --topic flink-topic --bootstrap-server kafka:9092 < /test.txt
-    image: wurstmeister/kafka
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: kafka
-      KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_CREATE_TOPICS: "flink-topic:1:1"
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    depends_on:
-      - kafka
-    networks:
-      - flink-net
-    entrypoint:
-      - tail
-    command: 
-      - -f
-      - /dev/null
-    # entrypoint:
-    #   - kafka-console-producer.sh
-    # command:
-    #   - --topic
-    #   - flink-topic
-    #   - --bootstrap-server
-    #   - kafka:9092
-    #   - < 
-    #   - /test.txt
-    restart: always
-    volumes:
-      - ./test_files/test_messages.txt:/test.txt:ro
+#  dummyproducer:
+#    # kafka-console-producer.sh --topic flink-topic --bootstrap-server kafka:9092 < /test.txt
+#    image: wurstmeister/kafka
+#    environment:
+#      KAFKA_ADVERTISED_HOST_NAME: kafka
+#      KAFKA_ADVERTISED_PORT: 9092
+#      KAFKA_CREATE_TOPICS: "flink-topic:1:1"
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#    depends_on:
+#      - kafka
+#    networks:
+#      - flink-net
+#    entrypoint:
+#      - tail
+#    command:
+#      - -f
+#      - /dev/null
+#    # entrypoint:
+#    #   - kafka-console-producer.sh
+#    # command:
+#    #   - --topic
+#    #   - flink-topic
+#    #   - --bootstrap-server
+#    #   - kafka:9092
+#    #   - <
+#    #   - /test.txt
+#    restart: always
+#    volumes:
+#      - ./test_files/test_messages.txt:/test.txt:ro
 
 networks:
   flink-net:

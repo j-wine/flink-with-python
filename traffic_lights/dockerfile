@@ -22,10 +22,7 @@ RUN poetry export -f requirements.txt -o requirements.txt --without-hashes \
     && rm -f requirements.txt
 
 RUN mkdir /taskscripts/jars/
-# Add Flink and Kafka connectors
-COPY traffic_lights/jars/flink-connector-kafka-3.0.1-1.18.jar /taskscripts/jars/
-COPY traffic_lights/jars/kafka-clients-3.0.1.jar /taskscripts/jars/
-COPY traffic_lights/jars/flink-json-1.18.0.jar /taskscripts/jars/
+COPY traffic_lights/jars/ /taskscripts/jars
 # Copy the Flink job script
 COPY traffic_lights/flink_job.py ./flink_job.py
 

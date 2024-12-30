@@ -2,7 +2,6 @@
 name = "flink-with-python"
 version = "0.1.0"
 description = ""
-authors = ["Alexander Foley <alexandergfoley@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -12,11 +11,10 @@ grpcio = "1.59.3"
 loguru = "0.7.2"
 black = "23.11.0"
 asyncio = "3.4.3"
-apache-flink = "1.18.0"
+apache-flink = "1.18.1"
 # For handling JSON serialization and deserialization
 jsonschema = "^4.19.0"
-# For Kafka connectivity (already provided by PyFlink jars)
-confluent-kafka = "^1.9.2"
+
 
 [build-system]
 requires = ["poetry-core"]
